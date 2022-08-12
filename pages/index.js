@@ -12,8 +12,9 @@ import HeaderBar from "../components/HeaderBar";
 import Cards from "../components/Cards";
 import SearchBar from "../components/SearchBar";
 import View from "../components/View";
+import LoadingSpinner from "../components/LoadingSpinner";
 
-const url = "https://api.pokemontcg.io/v2/cards/";
+const url = "https://api.pokemontcg.io/v2/cards";
 const theme = extendTheme({
   fonts: {
     heading: `'Inter', sans-serif`,
@@ -22,18 +23,51 @@ const theme = extendTheme({
 });
 
 export default function App({ fetchedData }) {
-  const [pokemons, setPokemons] = React.useState();
+  const [pokemons, setPokemons] = React.useState(fetchedData.data);
+  const [searchText, setSearchText] = React.useState("");
+  const [isLoading, setIsLoading] = React.useState(false);
+
   React.useEffect(() => {
-    setPokemons(fetchedData.data);
-  });
+    if (searchText.length > 0) {
+      setIsLoading(true);
+      fetch(url + `?q=name:${searchText}`, {
+        method: "GET",
+        headers: {
+          "X-Api-Key": "5e409ca9-6869-4ec8-8683-939d6153a9c7",
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.data.length != 0) {
+            console.log(data.data);
+            setPokemons(data.data);
+          }
+        });
+      setIsLoading(false);
+    } else {
+      setIsLoading(true);
+      fetch(url, {
+        method: "GET",
+        headers: {
+          "X-Api-Key": "5e409ca9-6869-4ec8-8683-939d6153a9c7",
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => setPokemons(data.data));
+      setIsLoading(false);
+    }
+  }, [searchText]);
+
   return (
     <>
       <ChakraProvider theme={theme}>
         <Layout>
-          <HeaderBar />
+          <HeaderBar>
+            <SearchBar getUserSearchText={setSearchText} />
+          </HeaderBar>
           {/* <SearchBar /> */}
           {/* <Cards pokemons={pokemons} /> */}
-          <View pokemons={pokemons} />
+          {isLoading ? <LoadingSpinner /> : <View pokemons={pokemons} />}
         </Layout>
       </ChakraProvider>
     </>

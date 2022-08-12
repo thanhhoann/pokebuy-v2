@@ -22,8 +22,9 @@ import {
   ChevronRightIcon,
 } from "@chakra-ui/icons";
 import { ColorModeSwitcher } from "../components/helpers/ColoModeSwitcher";
+import SearchBar from "./SearchBar";
 
-export default function HeaderBar() {
+export default function HeaderBar({ children }) {
   const { isOpen, onToggle } = useDisclosure();
 
   return (
@@ -65,7 +66,7 @@ export default function HeaderBar() {
           >
             /PokeBuy/
           </Text>
-
+          {children}
           <Flex display={{ base: "none", md: "flex" }} ml={10}>
             <DesktopNav />
           </Flex>

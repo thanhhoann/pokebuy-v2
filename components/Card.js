@@ -17,11 +17,11 @@ import {
   Button,
   UnorderedList,
   ListItem,
-} from '@chakra-ui/react';
-import React from 'react';
-import Tilt from 'react-parallax-tilt';
-import { SearchIcon } from '@chakra-ui/icons';
-import CardDetails from './CardDetails';
+} from "@chakra-ui/react";
+import React from "react";
+import Tilt from "react-parallax-tilt";
+import { SearchIcon } from "@chakra-ui/icons";
+import CardDetails from "./CardDetails";
 
 export default function Card({ pokemon }) {
   const [isHover, setIsHover] = React.useState(false);
@@ -35,13 +35,14 @@ export default function Card({ pokemon }) {
           <Image
             boxShadow="2xl"
             cursor="pointer"
-            rounded={'lg'}
+            rounded={"lg"}
             height={370}
             width="100%"
             onMouseEnter={() => setIsHover(true)}
             onMouseLeave={() => setIsHover(false)}
             onClick={onOpen}
             src={pokemon.images.small}
+            alt={pokemon.name}
           />
         </Tilt>
       </Center>
@@ -57,34 +58,34 @@ export default function Card({ pokemon }) {
           <ModalHeader>{pokemon.name}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <Text>Level: {pokemon.level ?? '???'}</Text>
+            <Text>Level: {pokemon.level ?? "???"}</Text>
             <hr />
-            <Text>HP: {pokemon.hp ?? '???'}</Text>
+            <Text>HP: {pokemon.hp ?? "???"}</Text>
             <hr />
-            <Text>Evolves from {pokemon.evolvesFrom ?? '???'}</Text>
+            <Text>Evolves from {pokemon.evolvesFrom ?? "???"}</Text>
             <hr />
             <Text>
-              Types:{' '}
+              Types:{" "}
               {pokemon.types.map((type, index) => (
                 <UnorderedList key={index}>
                   <ListItem>{type}</ListItem>
                 </UnorderedList>
-              )) ?? '???'}
+              )) ?? "???"}
             </Text>
             <hr />
             <Text>
-              Abilities:{' '}
+              Abilities:{" "}
               {pokemon.abilities
                 ? pokemon.abilities.map((ability, index) => (
                     <UnorderedList key={index}>
                       <ListItem>{ability.name}</ListItem>
                     </UnorderedList>
                   ))
-                : '???'}
+                : "???"}
             </Text>
             <hr />
             <Text>
-              Attacks:{' '}
+              Attacks:{" "}
               {pokemon.attacks
                 ? pokemon.attacks.map((attack, index) => (
                     <UnorderedList key={index}>
@@ -94,21 +95,21 @@ export default function Card({ pokemon }) {
                       </ListItem>
                     </UnorderedList>
                   ))
-                : '???'}
+                : "???"}
             </Text>
             <hr />
             <Text>
-              Weaknesses:{' '}
+              Weaknesses:{" "}
               {pokemon.weaknesses
                 ? pokemon.weaknesses.map((weakness, index) => (
                     <UnorderedList key={index}>
                       <ListItem>
                         <Text>Type: {weakness.type}</Text>
-                        <Text>Value: {weakness.value ?? '???'}</Text>
+                        <Text>Value: {weakness.value ?? "???"}</Text>
                       </ListItem>
                     </UnorderedList>
                   ))
-                : '???'}
+                : "???"}
             </Text>
           </ModalBody>
           <ModalFooter>

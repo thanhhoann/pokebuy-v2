@@ -26,76 +26,89 @@ import CardDetailsItem from "./CardDetailsItem";
 export default function View({ pokemons }) {
   const [index, setIndex] = React.useState(0);
 
-  const spinnerColor = useColorModeValue("black", "white");
+  const currentPokemon = pokemons[index];
 
   return (
     <>
-      {pokemons ? (
-        <SimpleGrid columns={{ sm: 1, md: 2 }} h="92.5vh" py="1rem">
-          <Box>
-            <Center h="100%" w="100%" ml="1rem">
-              <Tilt>
-                <Image
-                  boxShadow="2xl"
-                  cursor="pointer"
-                  rounded={"lg"}
-                  width={400}
-                  height={600}
-                  src={pokemons[index].images.large}
-                  fallbackSrc="https://via.placeholder.com/150"
-                  alt={pokemons[index].name}
-                  priority="true"
-                />
-              </Tilt>
-            </Center>
-          </Box>
+      <SimpleGrid columns={{ sm: 1, md: 2 }} h="92.5vh" py="1rem">
+        <Box>
+          <Center h="100%" w="100%" ml="1rem">
+            <Tilt>
+              <Image
+                boxShadow="2xl"
+                cursor="pointer"
+                rounded={"lg"}
+                width={400}
+                height={600}
+                src={currentPokemon.images.large}
+                fallbackSrc="https://via.placeholder.com/150"
+                alt={currentPokemon.name}
+                priority="true"
+              />
+            </Tilt>
+          </Center>
+        </Box>
 
-          <Box p="1rem" m="1rem" color="white">
-            <Flex alignItems="center" h="100%" w="100%" mr="1rem">
-              <Flex flexDir="column" mr="1rem">
-                <IconButton
-                  aria-label="previous pokemons[index]"
-                  icon={<ChevronUpIcon />}
-                  fontSize="1.5rem"
-                  onClick={() => index > 0 && setIndex(index - 1)}
-                  isDisabled={index <= 0}
-                  mb="1rem"
-                />
-                <IconButton
-                  aria-label="next pokemons[index]"
-                  icon={<ChevronDownIcon />}
-                  fontSize="1.5rem"
-                  onClick={() => setIndex(index + 1)}
-                />
-              </Flex>
+        <Box p="1rem" m="1rem">
+          <Flex alignItems="center" h="100%" w="100%" mr="1rem">
+            <Flex flexDir="column" mr="1rem">
+              <IconButton
+                aria-label="previous currentPokemon"
+                icon={<ChevronUpIcon />}
+                fontSize="1.5rem"
+                onClick={() => index > 0 && setIndex(index - 1)}
+                isDisabled={index <= 0}
+                mb="1rem"
+              />
+              <IconButton
+                aria-label="next currentPokemon"
+                icon={<ChevronDownIcon />}
+                fontSize="1.5rem"
+                onClick={() => setIndex(index + 1)}
+              />
+            </Flex>
 
-              <Box w="100%" h="100%" bg="black" rounded="1rem" p="1rem">
-                <Center mt="1rem">
-                  <Heading>{pokemons[index].name}</Heading>
-                </Center>
-                <CardDetailsItem
-                  label="Level"
-                  content={pokemons[index].level}
-                />
-                <CardDetailsItem label="HP" content={pokemons[index].hp} />
-                <CardDetailsItem
+            <Box
+              w="100%"
+              h="100%"
+              p="1rem"
+              boxShadow="2xl"
+              bg={useColorModeValue("white", "gray.800")}
+              rounded="1rem"
+            >
+              <Center mt="1rem" display="flex" flexDir="column">
+                {currentPokemon.types && (
+                  <CardDetailsItem
+                    label="Types"
+                    content={currentPokemon.types}
+                    type="types"
+                  />
+                )}
+                <Heading my="2rem" color={useColorModeValue("black", "white")}>
+                  {currentPokemon.name}
+                </Heading>
+                <CardDetailsItem label="HP" content={currentPokemon.hp} />
+                {currentPokemon.attacks && (
+                  <CardDetailsItem
+                    label="Attacks"
+                    content={currentPokemon.attacks}
+                    type="attacks"
+                  />
+                )}
+              </Center>
+              {/* <CardDetailsItem
                   label="Evolves from"
-                  content={pokemons[index].evolvesFrom}
-                />
-                <CardDetailsItem
-                  label="Types"
-                  content={pokemons[index].types}
-                  type="array"
-                />
-                <CardDetailsItem
+                  content={currentPokemon.evolvesFrom}
+                /> */}
+              {/* <CardDetailsItem
                   label="Abilities"
-                  content={pokemons[index].abilities}
+                  content={currentPokemon.abilities}
                   type="array"
-                />
-                <Text>
+                /> */}
+              {/* <Text>
                   Attacks:{" "}
-                  {pokemons[index].attacks
-                    ? pokemons[index].attacks.map((attack, index) => (
+                  {currentPokemon.attacks
+                    ? currentPokemon.attacks.map((attack, index) => (
                         <UnorderedList key={index}>
                           <ListItem>
                             <Text>Name: {attack.name}</Text>
@@ -108,8 +121,8 @@ export default function View({ pokemons }) {
                 <hr />
                 <Text>
                   Weaknesses:{" "}
-                  {pokemons[index].weaknesses
-                    ? pokemons[index].weaknesses.map((weakness, index) => (
+                  {currentPokemon.weaknesses
+                    ? currentPokemon.weaknesses.map((weakness, index) => (
                         <UnorderedList key={index}>
                           <ListItem>
                             <Text>Type: {weakness.type}</Text>
@@ -118,22 +131,11 @@ export default function View({ pokemons }) {
                         </UnorderedList>
                       ))
                     : "???"}
-                </Text>
-              </Box>
-            </Flex>
-          </Box>
-        </SimpleGrid>
-      ) : (
-        <Center h="92.5vh" w="100%">
-          <Spinner
-            thickness="1rem"
-            speed="0.3s"
-            color={spinnerColor}
-            size="xl"
-          />
-          <Heading ml="1rem">Loading your pokemons...</Heading>
-        </Center>
-      )}
+                </Text> */}
+            </Box>
+          </Flex>
+        </Box>
+      </SimpleGrid>
     </>
   );
 }
